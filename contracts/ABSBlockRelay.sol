@@ -47,6 +47,10 @@ contract ABSBlockRelay is BlockRelayInterface {
   // Array with the votes for the proposed blocks
   uint256[] public candidates;
 
+  // Array with the members of the ABS that have proposed a block
+  address[] public absProposingMembers;
+
+
   // Initializes the block with the maximum number of votes
   uint256 winnerVote;
   uint256 winnerId;
@@ -82,6 +86,9 @@ contract ABSBlockRelay is BlockRelayInterface {
 
   // Map an epoch to the finalized blockHash
   mapping(uint256 => uint256) internal epochFinalizedBlock;
+
+  // Map an address to the epoch when proposing a block
+  mapping(address => uint256) internal addressEpoch;
 
   // Ensure block exists
   modifier blockExists(uint256 _id){
@@ -248,6 +255,14 @@ contract ABSBlockRelay is BlockRelayInterface {
     blockDoesNotExist(_blockHash)
     returns(bytes32)
   {
+    // Check if a msg.sender has already proposed for this epoch
+    if (addressEpoch[msg.sender] >= _epoch) {
+      revert("Already proposed a block");
+    } else if (addressEpoch[msg.sender] == 0) {
+      absProposingMembers.push(msg.sender);
+    }
+    addressEpoch[msg.sender] = _epoch;
+
     // If the porposal epoch chancges try to post the block with more votes
     if (currentEpoch > proposalEpoch) {
       // If it has not, the set the epoch to pending
@@ -372,6 +387,12 @@ contract ABSBlockRelay is BlockRelayInterface {
     // Redefine the blockHash and the epoch so it is not deleted when fanalized
     voteInfo[_vote].voteHashes.blockHash = _blockHash;
     voteInfo[_vote].voteHashes.epoch = _epoch;
+
+    // Delete the ABS members from the list of proposing members
+    for (uint i = 0; i <= absProposingMembers.length - 1; i++) {
+      delete addressEpoch[absProposingMembers[i]];
+    }
+    delete absProposingMembers;
 
     // Update the ABS activity once finalized
     activeIdentities = wbi.absCount();
