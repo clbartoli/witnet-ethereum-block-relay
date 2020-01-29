@@ -1,13 +1,14 @@
 # witnet-ethereum-block-relay
 
-`witnet-ethereum-block-relay` is an open source implementation of the Block Relay in Witnet.
+`witnet-ethereum-block-relay` is an open source implementation of Witnet Block Relay for EVM-compatible blockchains.
+
 
  DISCLAIMER: this is a work in progress, meaning the contract could be voulnerable to attacks.
 
 ## About WBI and the Block Relay
 
-The Bridge nodes interact through the Witnet Bridge Interface, a smart contract in charge of facilitating the communication between Witnet and samrt contract platmforms, such as Ethereum (click [here][wbi] for more information).
-The block headers in Witnet need to be available to the WBI, meaning the WBI should get those headers that should be stored in some contract, the Block Relay, in Witnet. In order to assure the validity of the block headers, the Block Relay needs to guarantee a consensus protocol and a Finality Gadget. The documentation about the stages of the Block Relay can be found [here][block-relay].
+The Bridge nodes interact through the Witnet Bridge Interface, a smart contract in charge of facilitating the communication between Witnet and smart contract platforms, such as Ethereum (click [here][wbi] for more information).
+The block headers in Witnet need to be available to the WBI, meaning the WBI should get those headers that need to be stored in some contract in Witnet, the Block Relay. In order to assure the validity of these block headers, the Block Relay must guarantee a consensus protocol and a Finality Gadget. The documentation about the stages of the Block Relay can be found [here][block-relay].
 
 ## Connecting the Bridge and the Block Relay
 

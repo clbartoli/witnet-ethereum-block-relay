@@ -33,6 +33,7 @@ contract("Block relay Interface", accounts => {
         from: accounts[0],
       })
     })
+
     it("should revert when trying to verify dr in blockRelayInstance", async () => {
       // It should revert because of the blockExists modifer in blockRelayInstance
       await truffleAssert.reverts(blockRelayProxy.verifyDrPoi([1], 1, 1, 1), "Non-existing block")
@@ -74,7 +75,7 @@ contract("Block relay Interface", accounts => {
       // It should not allow upgrading the BR becouse of the onlyOwner modifier
       await truffleAssert.reverts(blockRelayProxy.upgradeBlockRelay(blockRelayInstance3.address, {
         from: accounts[1],
-      }), "Permission denied")
+      }), "The block relay is not upgradable")
     })
 
     it("should revert when upgrading a non upgradable block relay", async () => {
