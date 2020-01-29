@@ -20,6 +20,11 @@ contract ABSBRTestHelper is ABSBlockRelay {
     uint256 _witnetGenesis, uint256 _epochSeconds, uint256 _firstBlock, address _wbiAddress)
   ABSBlockRelay(_witnetGenesis, _epochSeconds, _firstBlock, _wbiAddress) public {}
 
+  // Add the ABS members
+  function pushActivity(address _member) external {
+    absProposingMembers.push(_member);
+  }
+
   // Updates the currentEpoch
   function updateEpoch() public view returns (uint256) {
     return currentEpoch;
