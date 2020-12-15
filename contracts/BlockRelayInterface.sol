@@ -23,7 +23,7 @@ interface BlockRelayInterface {
   function getLastEpoch() external view returns(uint256);
 
   /// @notice Returns the latest hash reported to the block relay
-  /// @return blockhash
+    /// @return blockhash
   function getLastHash() external view returns(uint256);
 
   /// @notice Verifies the validity of a data request PoI against the DR merkle root
@@ -53,5 +53,13 @@ interface BlockRelayInterface {
   /// @notice Verifies if the block relay can be upgraded
   /// @return true if contract is upgradable
   function isUpgradable(address _address) external view returns(bool);
+
+  /// @dev Retrieve address of the relayer that relayed a specific block header.
+  /// @param _blockHash Hash of the block header.
+  /// @return address of the relayer.
+  function readRelayerAddress(uint256 _blockHash)
+    external
+    view
+  returns(address);
 
 }
